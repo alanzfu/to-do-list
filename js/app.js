@@ -7,15 +7,18 @@ console.log(incompleteTaskHolder);
 
 //New Task List Item
 var createNewTaskElement = function(taskString){
-   
+   //creates the item in the list
   var listItem = document.createElement("li");
   
+   //creates all the elements within the item such as the lablel, button, etc
   var checkBox = document.createElement("input");
   var label = document.createElement("label");;
   var editInput = document.createElement("input");
   var editButton = document.createElement("button");
   var deleteButton = document.createElement("button");
-  //Each element, needs to be modified
+
+  //Each element, needs to be modified and gets values
+
   checkBox.type = "checkbox";
   editInput.type = "text";
   editButton.innerText = "Edit";
@@ -23,15 +26,17 @@ var createNewTaskElement = function(taskString){
   deleteButton.innerText = "Delete";
   deleteButton.className = "delete";
   
+  //the label gets the value that was typed by the user
   label.innerText = taskString;
   
+  //the created elements(which were not in the DOM), are then added to the DOM
   listItem.appendChild(checkBox);
   listItem.appendChild(label);
   listItem.appendChild(editInput);
   listItem.appendChild(editButton);
   listItem.appendChild(deleteButton);
   
-       
+  //returns the listItem with all children associated with it    
   return listItem;
 }
 
@@ -40,10 +45,15 @@ var createNewTaskElement = function(taskString){
 var addTask = function(){
   var holder = taskInput.value;
   
+  //only adds task if there is something to add
   if(holder.length>0){
+    //creates new task item with taskInput element
     var listItem = createNewTaskElement(taskInput.value);
+    //adds the new task to the incomplete list
     incompleteTaskHolder.appendChild(listItem);
+    //binds the events to JS variables to be used
     bindTaskEvents(listItem,taskCompleted);
+    //resets the input value to blank
     taskInput.value = "";
     
   };
@@ -53,18 +63,27 @@ var addTask = function(){
 //Edit existing task
 var editTask = function(){
   console.log("editing task");
+  //editTask is from clicking the button, therefore need to edit parent that holds it
   var listItem = this.parentNode;
   
+  //querySelector returns the first element that matches that CSS class
   var editInput = listItem.querySelector("input[type=text]");
   var editButton = listItem.querySelector("button");
   var label = listItem.querySelector("label");
   
+  //seeing if the listItem is in editMode
   var containsClass = listItem.classList.contains("editMode");
   if(containsClass){
+    //if parent is .editMode (class)
+    //switch from .editMode
+    //label text become the inputs value
     label.innerText = editInput.value;
     editButton.innerText = "Edit";
   }
   else {
+    //else
+    //switch to .editmode
+    //input value becomes the label's text
     editInput.value = label.innerText;
     editButton.innerText = "Done";
   }
@@ -73,13 +92,6 @@ var editTask = function(){
     
   
 }
-  //when the edit button is pressed
-  //if parent is .editMode (class)
-    //switch from .editMode
-    //label text become the inputs value
-  //else
-    //switch to .editmode
-    //input value becomes the label's text
   
 
 //Delete existing task
